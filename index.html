@@ -22,6 +22,27 @@
     gtag('config', 'G-PYVRSFMDRL');
   </script>
 
+  <script>
+    function updateSingleVideo() {
+      var skill = document.getElementById("single-menu-skills").value;
+      var object = document.getElementById("single-menu-objects").value;
+      var inst = document.getElementById("single-menu-instances").value;
+
+      console.log("single", skill, object, inst)
+
+      var video = document.getElementById("rollout-video");
+      video.src = "media/policy_rollouts/" + 
+                  skill +
+                  "-" +
+                  object +
+                  "-" +
+                  inst +
+                  ".mp4"
+      video.playbackRate = 1.75;
+      video.play();
+    }
+  </script>
+
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
 
@@ -360,6 +381,48 @@
           We deploy this trained model directly on the robot. 
           The images in this figure correspond to a real execution of the ZeroMimic “slide opening” skill for a drawer-opening task.
         </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered"><b>ZeroMimic</b> Zero-Shot Deployment</h2>
+        
+        <div style="text-align: center; font-size: 1.5em;">
+        <b>Skill:</b> 
+        <div class="select is-medium">
+          <select i</div>d="single-menu-demos" onchange="updateSingleVideo()">
+          <option value="slide_opening" selected="selected">Slide Opening</option>
+          </select>
+        </div>
+        <b>Object:</b> 
+        <div class="select is-medium">     
+          <select id="single-menu-tasks" onchange="updateSingleVideo()">
+          <option value="drawer" selected="selected">Drawer</option>
+          </select>
+        </div>
+        <b>Instance:</b>
+        <div class="select is-medium">
+          <select id=</div>"single-menu-instances" onchange="updateSingleVideo()">
+          <option value="levine457" selected="selected">Levine Hall 457</option>
+          </select>
+        </div>
+        <br/>
+        <br/>
+
+        <video id="rollout-video"
+                muted
+                autoplay
+                loop
+                width="100%">
+          <source src="media/policy_rollouts/slide_opening-drawer-levine457.mp4"
+                  type="video/mp4">
+        </video>
       </div>
     </div>
   </div>

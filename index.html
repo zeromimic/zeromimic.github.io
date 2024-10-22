@@ -280,8 +280,9 @@
         <figure class="image">
           <img src="./static/images/zeromimic_concept_overview.png" alt="ZeroMimic Concept Overview">
         </figure>
-        <p style="margin-top: 20px;">We introduce <b>ZeroMimic</b>, a system that distills robotic manipulation skills from <b>egocentric web videos</b> for <b>zero-shot deployment</b> in diverse
-          environments with a variety of objects.</p>
+        <p style="margin-top: 20px;">We introduce <b>ZeroMimic</b>, 
+          a system that distills robotic manipulation skills from <b>egocentric web videos</b> 
+          for <b>zero-shot deployment</b> in diverse environments with a variety of objects.</p>
       </div>
     </div>
   </div>
@@ -338,6 +339,27 @@
   </div>
 </section>
 
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Overview of <b>ZeroMimic</b></h2>
+        <figure class="image">
+          <img src="./static/images/ZeroMimic_method_figure_final.png" alt="Overview of ZeroMimic">
+        </figure>
+        <p style="margin-top: 20px;"></p>
+          <b>ZeroMimic</b> is composed of the <b>grasping module</b> and the <b>post-grasp module</b>. 
+          The <b>grasping module</b> (left) leverages existing pre-trained models 
+          for human interaction affordance model and grasp candidate generation to execute a task-relevant grasp. 
+          The <b>post-grasp module</b> (right) is an imitation policy trained on web videos to predict 6D wrist trajectories. 
+          We deploy this trained model directly on the robot. 
+          The images in this figure correspond to a real execution of the ZeroMimic “slide opening” skill for a drawer-opening task.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="section">
   <div class="container is-max-desktop">

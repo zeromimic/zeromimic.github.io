@@ -54,6 +54,13 @@
           "instances": [
             { "value": "levine457", "text": "Levine 457 Kitchen" }
           ]
+        },
+        {
+          "value": "fridge",
+          "text": "Fridge",
+          "instances": [
+            { "value": "grasplab", "text": "GRASP Lab Kitchen" }
+          ]
         }
       ]
     },
@@ -72,7 +79,25 @@
           "value": "fridge",
           "text": "Fridge",
           "instances": [
-            { "value": "grasplab", "text": "GRASP Lab" }
+            { "value": "grasplab", "text": "GRASP Lab Kitchen" }
+          ]
+        }
+      ]
+    },
+    "picking": {
+      "objects": [
+        {
+          "value": "banana",
+          "text": "Banana",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "can",
+          "text": "Can",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
           ]
         }
       ]
@@ -771,6 +796,7 @@
                 <div class="select is-medium">
                   <select id="vertical_hinge_closing-menu-objects" onchange="updateInstanceOptions('vertical_hinge_closing'); updateVideo('vertical_hinge_closing')">
                     <option value="cupboard" selected="selected">Cupboard</option>
+                    <option value="fridge">Fridge</option>
                   </select>
                 </div>
               </div>
@@ -845,7 +871,62 @@
               </div>
             </div>
     
-            <!-- Add additional sections for "Vertical Hinge Opening", "Vertical Hinge Closing", "Cutting", etc. -->
+            <div id="section-picking" class="section-container">
+              <h3 style="margin-bottom: 20px;">Picking</h3>
+              <div class="select-container">
+                <span class="label">Object:</span>
+                <div class="select is-medium">
+                  <select id="picking-menu-objects" onchange="updateInstanceOptions('picking'); updateVideo('picking')">
+                    <option value="banana" selected="selected">Banana</option>
+                    <option value="can">Can</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="select-container">
+                <span class="label">Instance:</span>
+                <div class="select is-medium">
+                  <select id="picking-menu-instances" onchange="updateVideo('picking')">
+                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="video-container">
+                <video id="picking-video" muted autoplay loop width="100%">
+                  <source src="media/policy_rollouts/picking-banana-levine457.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            
+            <div id="section-cutting" class="section-container">
+              <h3 style="margin-bottom: 20px;">Cutting</h3>
+              <div class="select-container">
+                <span class="label">Object:</span>
+                <div class="select is-medium">
+                  <select id="cutting-menu-objects" onchange="updateInstanceOptions('cutting'); updateVideo('cutting')">
+                    <option value="banana" selected="selected">Banana</option>
+                    <option value="cake">Cake</option>
+                    <option value="tofu">Tofu</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="select-container">
+                <span class="label">Instance:</span>
+                <div class="select is-medium">
+                  <select id="cutting-menu-instances" onchange="updateVideo('cutting')">
+                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="video-container">
+                <video id="cutting-video" muted autoplay loop width="100%">
+                  <source src="media/policy_rollouts/cutting-banana-levine457.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
 
           </div>
         </div>

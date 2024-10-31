@@ -24,96 +24,124 @@
 
   <script>
     const skillOptions = {
-      "slide_opening": {
-        "objects": [
-          { "value": "drawer", "text": "Drawer" }
-        ],
-        "instances": [
-          { "value": "levine457", "text": "Levine Hall 457" }
-        ]
-      },
-      "vertical_hinge_closing": {
-        "objects": [
-          { "value": "cupboard", "text": "Cupboard" }
-        ],
-        "instances": [
-          { "value": "levine457", "text": "Levine Hall 457" }
-        ]
-      },
-      "vertical_hinge_opening": {
-        "objects": [
-          { "value": "cupboard", "text": "Cupboard" }
-        ],
-        "instances": [
-          { "value": "levine457", "text": "Levine Hall 457" },
-          { "value": "tabletop1", "text": "Table Top 1" },
-          { "value": "tabletop2", "text": "Table Top 2" }
-        ]
+    "slide_opening": {
+      "objects": [
+        {
+          "value": "drawer",
+          "text": "Drawer",
+          "instances": [
+            { "value": "levine457", "text": "Levine Hall 457" }
+          ]
+        }
+      ]
+    },
+    "slide_closing": {
+      "objects": [
+        {
+          "value": "drawer",
+          "text": "Drawer",
+          "instances": [
+            { "value": "levine457", "text": "Levine Hall 457" }
+          ]
+        }
+      ]
+    },
+    "vertical_hinge_closing": {
+      "objects": [
+        {
+          "value": "cupboard",
+          "text": "Cupboard",
+          "instances": [
+            { "value": "levine457", "text": "Levine Hall 457" }
+          ]
+        }
+      ]
+    },
+    "vertical_hinge_opening": {
+      "objects": [
+        {
+          "value": "cupboard",
+          "text": "Cupboard",
+          "instances": [
+            { "value": "levine457", "text": "Levine Hall 457" },
+            { "value": "tabletop1", "text": "Table Top 1" },
+            { "value": "tabletop2", "text": "Table Top 2" }
+          ]
+        },
+        {
+          "value": "fridge",
+          "text": "Fridge",
+          "instances": [
+            { "value": "grasplab", "text": "GRASP Lab" }
+          ]
+        }
+      ]
+    }
+  };
+
+  function updateSingleVideo() {
+    var skill = document.getElementById("single-menu-skills").value;
+    var object = document.getElementById("single-menu-objects").value;
+    var inst = document.getElementById("single-menu-instances").value;
+
+    console.log("single", skill, object, inst);
+
+    var video = document.getElementById("rollout-video");
+    video.src = "media/policy_rollouts/" + 
+                skill +
+                "-" +
+                object +
+                "-" +
+                inst +
+                ".mp4";
+    // video.playbackRate = 1.75;
+    video.playbackRate = 1.00;
+    video.play();
+  }
+
+  function updateObjectOptions() {
+    var skill = document.getElementById("single-menu-skills").value;
+    var objectSelect = document.getElementById("single-menu-objects");
+    var instanceSelect = document.getElementById("single-menu-instances");
+
+    // Clear current options
+    objectSelect.innerHTML = "";
+    instanceSelect.innerHTML = "";
+
+    // Populate objects based on selected skill
+    skillOptions[skill].objects.forEach(function(obj) {
+      var option = document.createElement("option");
+      option.value = obj.value;
+      option.text = obj.text;
+      objectSelect.appendChild(option);
+    });
+
+    // Update instance options based on selected skill and first object
+    if (skillOptions[skill].objects.length > 0) {
+      updateInstanceOptions();
+    }
+  }
+
+  function updateInstanceOptions() {
+    var skill = document.getElementById("single-menu-skills").value;
+    var object = document.getElementById("single-menu-objects").value;
+    var instanceSelect = document.getElementById("single-menu-instances");
+
+    // Clear current options
+    instanceSelect.innerHTML = "";
+
+    // Find the selected object and populate instances
+    skillOptions[skill].objects.forEach(function(obj) {
+      if (obj.value === object) {
+        obj.instances.forEach(function(inst) {
+          var option = document.createElement("option");
+          option.value = inst.value;
+          option.text = inst.text;
+          instanceSelect.appendChild(option);
+        });
       }
-    };
-
-    function updateSingleVideo() {
-      var skill = document.getElementById("single-menu-skills").value;
-      var object = document.getElementById("single-menu-objects").value;
-      var inst = document.getElementById("single-menu-instances").value;
-
-      console.log("single", skill, object, inst)
-
-      var video = document.getElementById("rollout-video");
-      video.src = "media/policy_rollouts/" + 
-                  skill +
-                  "-" +
-                  object +
-                  "-" +
-                  inst +
-                  ".mp4"
-      // video.playbackRate = 1.75;
-      video.playbackRate = 1.00;
-      video.play();
-    }
-
-    function updateObjectOptions() {
-      var skill = document.getElementById("single-menu-skills").value;
-      var objectSelect = document.getElementById("single-menu-objects");
-      var instanceSelect = document.getElementById("single-menu-instances");
-
-      // Clear current options
-      objectSelect.innerHTML = "";
-      instanceSelect.innerHTML = "";
-
-      // Populate objects based on selected skill
-      skillOptions[skill].objects.forEach(function(obj) {
-        var option = document.createElement("option");
-        option.value = obj.value;
-        option.text = obj.text;
-        objectSelect.appendChild(option);
-      });
-
-      // Populate instances based on selected skill
-      skillOptions[skill].instances.forEach(function(inst) {
-        var option = document.createElement("option");
-        option.value = inst.value;
-        option.text = inst.text;
-        instanceSelect.appendChild(option);
-      });
-    }
-
-    function updateInstanceOptions() {
-      var skill = document.getElementById("single-menu-skills").value;
-      var object = document.getElementById("single-menu-objects").value;
-      var instanceSelect = document.getElementById("single-menu-instances");
-
-      // Clear current options
-      instanceSelect.innerHTML = "";
-
-      // Populate instances based on selected skill and object
-      skillOptions[skill].instances.forEach(function(inst) {
-        var option = document.createElement("option");
-        option.value = inst.value;
-        option.text = inst.text;
-        instanceSelect.appendChild(option);
-      });
-    }
+    });
+  }
   </script>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
@@ -471,6 +499,7 @@
         <div class="select is-medium">
           <select id="single-menu-skills" onchange="updateObjectOptions(); updateSingleVideo()">
           <option value="slide_opening" selected="selected">Slide Opening</option>
+          <option value="slide_closing">Slide Closing</option>
           <option value="vertical_hinge_closing">Vertical Hinge Closing</option>
           <option value="vertical_hinge_opening">Vertical Hinge Opening</option>
           </select>

@@ -493,8 +493,16 @@
     <div class="columns is-centered">
       <div class="column is-full-width">
         <h2 class="title is-3 has-text-centered"><b>ZeroMimic</b> Zero-Shot Deployment</h2>
+
+        <p style="text-align: left; font-size: 1.5em; margin-top: 20px; margin-bottom: 20px;"></p>
+          We train <b>9 different skill policies</b>: vertical hinge opening/closing, slide opening/closing, pouring, picking, placing, cutting, and stirring.
+          We evaluate ZeroMimic skill policies <b>out-of-the-box</b> in the real world on a <b>diverse set of objects</b> in <b>diverse unseen environments</b>. 
+          See below for the evaluation videos.
+        </p>
+      
+        <br/><br/>
         
-        <div style="text-align: center; font-size: 1.5em;">
+        <!-- <div style="text-align: center; font-size: 1.5em;">
         <b>Skill:</b> 
         <div class="select is-medium">
           <select id="single-menu-skills" onchange="updateObjectOptions(); updateSingleVideo()">
@@ -508,7 +516,6 @@
         <div class="select is-medium">     
           <select id="single-menu-objects" onchange="updateInstanceOptions(); updateSingleVideo()">
           <option value="drawer" selected="selected">Drawer</option>
-          <!-- <option value="cupboard">Cupboard</option> -->
           </select>
         </div>
         <b>Instance:</b>
@@ -518,7 +525,74 @@
           </select>
         </div>
         <br/>
-        <br/>
+        <br/> -->
+
+        <div style="text-align: center; font-size: 1.5em; padding: 20px; max-width: 1000px; margin: auto; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);">
+          <style>
+              .select select {
+                  font-size: 1em;
+                  padding: 8px 12px;
+                  border-radius: 6px;
+                  border: 1px solid #ddd;
+                  color: #333;
+                  background-color: #fff;
+                  appearance: none;
+                  outline: none;
+                  transition: border 0.3s;
+              }
+      
+              .select select:focus {
+                  border-color: #4a90e2;
+                  box-shadow: 0 0 5px rgba(74, 144, 226, 0.4);
+              }
+      
+              .label {
+                  font-weight: bold;
+                  margin-right: 8px;
+                  display: inline-block;
+                  color: #4a4a4a;
+              }
+      
+              .select-container {
+                  display: inline-block;
+                  margin-right: 20px;
+                  text-align: left;
+              }
+          </style>
+      
+          <div class="select-container">
+              <span class="label">Skill:</span>
+              <div class="select is-medium">
+                  <select id="single-menu-skills" onchange="updateObjectOptions(); updateSingleVideo()">
+                      <option value="slide_opening" selected="selected">Slide Opening</option>
+                      <option value="slide_closing">Slide Closing</option>
+                      <option value="vertical_hinge_closing">Vertical Hinge Closing</option>
+                      <option value="vertical_hinge_opening">Vertical Hinge Opening</option>
+                  </select>
+              </div>
+          </div>
+      
+          <div class="select-container">
+              <span class="label">Object:</span>
+              <div class="select is-medium">
+                  <select id="single-menu-objects" onchange="updateInstanceOptions(); updateSingleVideo()">
+                      <option value="drawer" selected="selected">Drawer</option>
+                      <!-- <option value="cupboard">Cupboard</option> -->
+                  </select>
+              </div>
+          </div>
+      
+          <div class="select-container">
+              <span class="label">Instance:</span>
+              <div class="select is-medium">
+                  <select id="single-menu-instances" onchange="updateSingleVideo()">
+                      <option value="levine457" selected="selected">Levine Hall 457</option>
+                  </select>
+              </div>
+          </div>
+        </div>
+        
+        <br/><br/>
 
         <video id="rollout-video"
                 muted

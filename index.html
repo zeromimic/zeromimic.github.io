@@ -30,7 +30,7 @@
           "value": "drawer",
           "text": "Drawer",
           "instances": [
-            { "value": "levine457", "text": "Levine Hall 457" }
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
           ]
         }
       ]
@@ -41,7 +41,7 @@
           "value": "drawer",
           "text": "Drawer",
           "instances": [
-            { "value": "levine457", "text": "Levine Hall 457" }
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
           ]
         }
       ]
@@ -52,7 +52,7 @@
           "value": "cupboard",
           "text": "Cupboard",
           "instances": [
-            { "value": "levine457", "text": "Levine Hall 457" }
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
           ]
         }
       ]
@@ -63,7 +63,7 @@
           "value": "cupboard",
           "text": "Cupboard",
           "instances": [
-            { "value": "levine457", "text": "Levine Hall 457" },
+            { "value": "levine457", "text": "Levine 457 Kitchen" },
             { "value": "tabletop1", "text": "Table Top 1" },
             { "value": "tabletop2", "text": "Table Top 2" }
           ]
@@ -76,7 +76,32 @@
           ]
         }
       ]
-    }
+    },
+    "cutting": {
+      "objects": [
+        {
+          "value": "banana",
+          "text": "Banana",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "cake",
+          "text": "Cake",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "tofu",
+          "text": "Tofu",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        }
+      ]
+    },
   };
 
   function updateSingleVideo() {
@@ -244,6 +269,8 @@
             </span>
             <!-- <span class="author-block"><sup>&#8225</sup>Equal Advising</span> -->
           </div>
+
+          <div style="margin-bottom: 10px;"></div>
 
           <!-- <div class="column has-text-centered"> -->
             <div class="publication-links">
@@ -568,6 +595,7 @@
                       <option value="slide_closing">Slide Closing</option>
                       <option value="vertical_hinge_closing">Vertical Hinge Closing</option>
                       <option value="vertical_hinge_opening">Vertical Hinge Opening</option>
+                      <option value="cutting">Cutting</option>
                   </select>
               </div>
           </div>
@@ -586,7 +614,7 @@
               <span class="label">Instance:</span>
               <div class="select is-medium">
                   <select id="single-menu-instances" onchange="updateSingleVideo()">
-                      <option value="levine457" selected="selected">Levine Hall 457</option>
+                      <option value="levine457" selected="selected">Levine 457 Kitchen</option>
                   </select>
               </div>
           </div>

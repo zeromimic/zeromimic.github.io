@@ -23,6 +23,25 @@
   </script>
 
   <script>
+    const skillOptions = {
+      "slide_opening": {
+        "objects": [
+          { "value": "drawer", "text": "Drawer" }
+        ],
+        "instances": [
+          { "value": "levine457", "text": "Levine Hall 457" }
+        ]
+      },
+      "vertical_hinge_closing": {
+        "objects": [
+          { "value": "cupboard", "text": "Cupboard" }
+        ],
+        "instances": [
+          { "value": "levine457", "text": "Levine Hall 457" }
+        ]
+      }
+    };
+
     function updateSingleVideo() {
       var skill = document.getElementById("single-menu-skills").value;
       var object = document.getElementById("single-menu-objects").value;
@@ -38,8 +57,52 @@
                   "-" +
                   inst +
                   ".mp4"
-      video.playbackRate = 1.75;
+      // video.playbackRate = 1.75;
+      video.playbackRate = 1.00;
       video.play();
+    }
+
+    function updateObjectOptions() {
+      var skill = document.getElementById("single-menu-skills").value;
+      var objectSelect = document.getElementById("single-menu-objects");
+      var instanceSelect = document.getElementById("single-menu-instances");
+
+      // Clear current options
+      objectSelect.innerHTML = "";
+      instanceSelect.innerHTML = "";
+
+      // Populate objects based on selected skill
+      skillOptions[skill].objects.forEach(function(obj) {
+        var option = document.createElement("option");
+        option.value = obj.value;
+        option.text = obj.text;
+        objectSelect.appendChild(option);
+      });
+
+      // Populate instances based on selected skill
+      skillOptions[skill].instances.forEach(function(inst) {
+        var option = document.createElement("option");
+        option.value = inst.value;
+        option.text = inst.text;
+        instanceSelect.appendChild(option);
+      });
+    }
+
+    function updateInstanceOptions() {
+      var skill = document.getElementById("single-menu-skills").value;
+      var object = document.getElementById("single-menu-objects").value;
+      var instanceSelect = document.getElementById("single-menu-instances");
+
+      // Clear current options
+      instanceSelect.innerHTML = "";
+
+      // Populate instances based on selected skill and object
+      skillOptions[skill].instances.forEach(function(inst) {
+        var option = document.createElement("option");
+        option.value = inst.value;
+        option.text = inst.text;
+        instanceSelect.appendChild(option);
+      });
     }
   </script>
 
@@ -396,19 +459,21 @@
         <div style="text-align: center; font-size: 1.5em;">
         <b>Skill:</b> 
         <div class="select is-medium">
-          <select i</div>d="single-menu-demos" onchange="updateSingleVideo()">
+          <select id="single-menu-skills" onchange="updateObjectOptions(); updateSingleVideo()">
           <option value="slide_opening" selected="selected">Slide Opening</option>
+          <option value="vertical_hinge_closing">Vertical Hinge Closing</option>
           </select>
         </div>
         <b>Object:</b> 
         <div class="select is-medium">     
-          <select id="single-menu-tasks" onchange="updateSingleVideo()">
+          <select id="single-menu-objects" onchange="updateInstanceOptions(); updateSingleVideo()">
           <option value="drawer" selected="selected">Drawer</option>
+          <!-- <option value="cupboard">Cupboard</option> -->
           </select>
         </div>
         <b>Instance:</b>
         <div class="select is-medium">
-          <select id=</div>"single-menu-instances" onchange="updateSingleVideo()">
+          <select id="single-menu-instances" onchange="updateSingleVideo()">
           <option value="levine457" selected="selected">Levine Hall 457</option>
           </select>
         </div>

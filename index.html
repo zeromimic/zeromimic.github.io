@@ -84,6 +84,31 @@
         }
       ]
     },
+    "pouring": {
+      "objects": [
+        {
+          "value": "salt_from_spoon_into_pan",
+          "text": "Salt from Spoon into Pan",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "pasta_from_bowl_into_pan",
+          "text": "Pasta from Bowl into Pan",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "water_from_bowl_into_sink",
+          "text": "Water from Bowl into Sink",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        }
+      ]
+    },
     "picking": {
       "objects": [
         {
@@ -96,6 +121,24 @@
         {
           "value": "can",
           "text": "Can",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        }
+      ]
+    },
+    "placing": {
+      "objects": [
+        {
+          "value": "pasta_into_drawer",
+          "text": "Pasta into Drawer",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "cup",
+          "text": "Cup",
           "instances": [
             { "value": "levine457", "text": "Levine 457 Kitchen" }
           ]
@@ -127,6 +170,24 @@
         }
       ]
     },
+    "stirring": {
+      "objects": [
+        {
+          "value": "food_in_pan",
+          "text": "Food in Pan",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "pasta_in_water",
+          "text": "Pasta in Water",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        }
+      ]
+    }
   };
 
   function updateVideo(skill) {
@@ -870,6 +931,35 @@
               </video>
               </div>
             </div>
+
+            <div id="section-pouring" class="section-container">
+              <h3 style="margin-bottom: 20px;">Pouring</h3>
+              <div class="select-container">
+                <span class="label">Object:</span>
+                <div class="select is-medium">
+                  <select id="pouring-menu-objects" onchange="updateInstanceOptions('pouring'); updateVideo('pouring')">
+                    <option value="salt_from_spoon_into_pan" selected="selected">Salt from Spoon into Pan</option>
+                    <option value="pasta_from_bowl_into_pan">Pasta from Bowl into Pan</option>
+                    <option value="water_from_bowl_into_sink">Water from Bowl into Sink</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="select-container">
+                <span class="label">Instance:</span>
+                <div class="select is-medium">
+                  <select id="pouring-menu-instances" onchange="updateVideo('pouring')">
+                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="video-container">
+                <video id="pouring-video" muted autoplay loop width="100%">
+                  <source src="media/policy_rollouts/pouring-salt_from_spoon_into_pan-levine457.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
     
             <div id="section-picking" class="section-container">
               <h3 style="margin-bottom: 20px;">Picking</h3>
@@ -895,6 +985,34 @@
               <div class="video-container">
                 <video id="picking-video" muted autoplay loop width="100%">
                   <source src="media/policy_rollouts/picking-banana-levine457.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div id="section-placing" class="section-container">
+              <h3 style="margin-bottom: 20px;">Placing</h3>
+              <div class="select-container">
+                <span class="label">Object:</span>
+                <div class="select is-medium">
+                  <select id="placing-menu-objects" onchange="updateInstanceOptions('placing'); updateVideo('placing')">
+                    <option value="pasta_into_drawer" selected="selected">Pasta into Drawer</option>
+                    <option value="cup">Cup</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="select-container">
+                <span class="label">Instance:</span>
+                <div class="select is-medium">
+                  <select id="placing-menu-instances" onchange="updateVideo('placing')">
+                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="video-container">
+                <video id="placing-video" muted autoplay loop width="100%">
+                  <source src="media/policy_rollouts/placing-pasta_into_drawer-levine457.mp4" type="video/mp4">
                 </video>
               </div>
             </div>
@@ -924,6 +1042,34 @@
               <div class="video-container">
                 <video id="cutting-video" muted autoplay loop width="100%">
                   <source src="media/policy_rollouts/cutting-banana-levine457.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div id="section-stirring" class="section-container">
+              <h3 style="margin-bottom: 20px;">Stirring</h3>
+              <div class="select-container">
+                <span class="label">Object:</span>
+                <div class="select is-medium">
+                  <select id="stirring-menu-objects" onchange="updateInstanceOptions('stirring'); updateVideo('stirring')">
+                    <option value="food_in_pan" selected="selected">Food in Pan</option>
+                    <option value="pasta_in_water">Pasta in Water</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="select-container">
+                <span class="label">Instance:</span>
+                <div class="select is-medium">
+                  <select id="stirring-menu-instances" onchange="updateVideo('stirring')">
+                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="video-container">
+                <video id="stirring-video" muted autoplay loop width="100%">
+                  <source src="media/policy_rollouts/stirring-food_in_pan-levine457.mp4" type="video/mp4">
                 </video>
               </div>
             </div>

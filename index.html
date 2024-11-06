@@ -30,7 +30,8 @@
           "value": "drawer",
           "text": "Drawer",
           "instances": [
-            { "value": "levine457", "text": "Levine 457 Kitchen" }
+            { "value": "levine457", "text": "Levine 457 Kitchen" },
+            { "value": "towne337", "text": "Towne 337 Kitchen" }
           ]
         }
       ]
@@ -41,7 +42,8 @@
           "value": "drawer",
           "text": "Drawer",
           "instances": [
-            { "value": "levine457", "text": "Levine 457 Kitchen" }
+            { "value": "levine457", "text": "Levine 457 Kitchen" },
+            { "value": "towne337", "text": "Towne 337 Kitchen" }
           ]
         }
       ]
@@ -52,7 +54,9 @@
           "value": "cupboard",
           "text": "Cupboard",
           "instances": [
-            { "value": "levine457", "text": "Levine 457 Kitchen" }
+            { "value": "levine457", "text": "Levine 457 Kitchen" },
+            { "value": "tabletop1", "text": "Table Top 1" },
+            { "value": "tabletop2", "text": "Table Top 2" }
           ]
         },
         {
@@ -856,8 +860,8 @@
                 <span class="label">Object:</span>
                 <div class="select is-medium">
                   <select id="vertical_hinge_closing-menu-objects" onchange="updateInstanceOptions('vertical_hinge_closing'); updateVideo('vertical_hinge_closing')">
-                    <option value="cupboard" selected="selected">Cupboard</option>
-                    <option value="fridge">Fridge</option>
+                    <option value="fridge" selected="selected">Fridge</option>
+                    <option value="cupboard">Cupboard</option>
                   </select>
                 </div>
               </div>
@@ -866,14 +870,14 @@
                 <span class="label">Instance:</span>
                 <div class="select is-medium">
                   <select id="vertical_hinge_closing-menu-instances" onchange="updateVideo('vertical_hinge_closing')">
-                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                    <option value="grasplab" selected="selected">GRASP Lab Kitchen</option>
                   </select>
                 </div>
               </div>
 
               <div class="video-container">
                 <video id="vertical_hinge_closing-video" muted autoplay loop width="100%">
-                  <source src="media/policy_rollouts/vertical_hinge_closing-cupboard-levine457.mp4" type="video/mp4">
+                  <source src="media/policy_rollouts/vertical_hinge_closing-fridge-grasplab.mp4" type="video/mp4">
                 </video>
               </div>
             </div>
@@ -893,14 +897,15 @@
               <span class="label">Instance:</span>
               <div class="select is-medium">
                 <select id="slide_opening-menu-instances" onchange="updateVideo('slide_opening')">
-                <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                  <option value="towne337" selected="selected">Towne 337 Kitchen</option>
+                  <option value="levine457">Levine 457 Kitchen</option>
                 </select>
               </div>
               </div>
         
               <div class="video-container">
                 <video id="slide_opening-video" muted autoplay loop width="100%">
-                <source src="media/policy_rollouts/slide_opening-drawer-levine457.mp4" type="video/mp4">
+                <source src="media/policy_rollouts/slide_opening-drawer-towne337.mp4" type="video/mp4">
                 </video>
               </div>
             </div>
@@ -921,6 +926,7 @@
               <div class="select is-medium">
                 <select id="slide_closing-menu-instances" onchange="updateVideo('slide_closing')">
                 <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                <option value="towne337">Towne 337 Kitchen</option>
                 </select>
               </div>
               </div>
@@ -1023,9 +1029,9 @@
                 <span class="label">Object:</span>
                 <div class="select is-medium">
                   <select id="cutting-menu-objects" onchange="updateInstanceOptions('cutting'); updateVideo('cutting')">
-                    <option value="banana" selected="selected">Banana</option>
+                    <option value="tofu" selected="selected">Tofu</option>
+                    <option value="banana">Banana</option>
                     <option value="cake">Cake</option>
-                    <option value="tofu">Tofu</option>
                   </select>
                 </div>
               </div>
@@ -1041,7 +1047,7 @@
 
               <div class="video-container">
                 <video id="cutting-video" muted autoplay loop width="100%">
-                  <source src="media/policy_rollouts/cutting-banana-levine457.mp4" type="video/mp4">
+                  <source src="media/policy_rollouts/cutting-tofu-levine457.mp4" type="video/mp4">
                 </video>
               </div>
             </div>

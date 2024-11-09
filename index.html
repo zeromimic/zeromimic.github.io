@@ -128,6 +128,13 @@
           "instances": [
             { "value": "levine457", "text": "Levine 457 Kitchen" }
           ]
+        },
+        {
+          "value": "marker",
+          "text": "Marker",
+          "instances": [
+            { "value": "tabletop1", "text": "Table Top 1" }
+          ]
         }
       ]
     },
@@ -188,6 +195,13 @@
           "text": "Pasta in Water",
           "instances": [
             { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "water_in_pan",
+          "text": "Water in Pan",
+          "instances": [
+            { "value": "tabletop1", "text": "Table Top 1" }
           ]
         }
       ]
@@ -973,7 +987,8 @@
                 <span class="label">Object:</span>
                 <div class="select is-medium">
                   <select id="picking-menu-objects" onchange="updateInstanceOptions('picking'); updateVideo('picking')">
-                    <option value="banana" selected="selected">Banana</option>
+                    <option value="marker" selected="selected">Marker</option>
+                    <option value="banana">Banana</option>
                     <option value="can">Can</option>
                   </select>
                 </div>
@@ -983,14 +998,14 @@
                 <span class="label">Instance:</span>
                 <div class="select is-medium">
                   <select id="picking-menu-instances" onchange="updateVideo('picking')">
-                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                    <option value="tabletop1" selected="selected">Table Top 1</option>
                   </select>
                 </div>
               </div>
 
               <div class="video-container">
                 <video id="picking-video" muted autoplay loop width="100%">
-                  <source src="media/policy_rollouts/picking-banana-levine457.mp4" type="video/mp4">
+                  <source src="media/policy_rollouts/picking-marker-tabletop1.mp4" type="video/mp4">
                 </video>
               </div>
             </div>
@@ -1060,6 +1075,7 @@
                   <select id="stirring-menu-objects" onchange="updateInstanceOptions('stirring'); updateVideo('stirring')">
                     <option value="food_in_pan" selected="selected">Food in Pan</option>
                     <option value="pasta_in_water">Pasta in Water</option>
+                    <option value="water_in_pan">Water in Pan</option>
                   </select>
                 </div>
               </div>

@@ -679,7 +679,7 @@
       <div class="column is-full-width">
         <h2 class="title is-3 has-text-centered"><b>ZeroMimic</b> Zero-Shot Deployment</h2>
 
-        <p style="text-align: left; font-size: 1.5em; margin-top: 20px; margin-bottom: 20px;"></p>
+        <p style="text-align: left; margin-top: 20px; margin-bottom: 20px;">
           We train <b>9 different skill policies</b>: vertical hinge opening/closing, slide opening/closing, pouring, picking, placing, cutting, and stirring.
           We evaluate ZeroMimic skill policies <b>out-of-the-box</b> in the real world on a <b>diverse set of objects</b> in <b>diverse unseen environments</b>. 
           See below for the evaluation videos.
@@ -763,7 +763,7 @@
                   </div>
 
                   <div class="video-container">
-                    <video id="vertical_hinge_opening-video" muted autoplay loop width="100%">
+                    <video id="vertical_hinge_opening-video" muted autoplay loop controls width="100%">
                       <source src="media/policy_rollouts/vertical_hinge_opening-cupboard-levine457.mp4" type="video/mp4">
                     </video>
                   </div>
@@ -793,7 +793,7 @@
                   </div>
 
                   <div class="video-container">
-                    <video id="vertical_hinge_closing-video" muted autoplay loop width="100%">
+                    <video id="vertical_hinge_closing-video" muted autoplay controls loop width="100%">
                       <source src="media/policy_rollouts/vertical_hinge_closing-fridge-grasplab.mp4" type="video/mp4">
                     </video>
                   </div>
@@ -825,7 +825,7 @@
                   </div>
             
                   <div class="video-container">
-                    <video id="slide_opening-video" muted autoplay loop width="100%">
+                    <video id="slide_opening-video" muted autoplay controls loop width="100%">
                     <source src="media/policy_rollouts/slide_opening-drawer-towne337.mp4" type="video/mp4">
                     </video>
                   </div>
@@ -855,7 +855,7 @@
                   </div>
             
                   <div class="video-container">
-                  <video id="slide_closing-video" muted autoplay loop width="100%">
+                  <video id="slide_closing-video" muted autoplay controls loop width="100%">
                     <source src="media/policy_rollouts/slide_closing-drawer-levine457.mp4" type="video/mp4">
                   </video>
                   </div>
@@ -888,7 +888,7 @@
                   </div>
 
                   <div class="video-container">
-                    <video id="picking-video" muted autoplay loop width="100%">
+                    <video id="picking-video" muted autoplay controls loop width="100%">
                       <source src="media/policy_rollouts/picking-marker-tabletop1.mp4" type="video/mp4">
                     </video>
                   </div>
@@ -918,7 +918,7 @@
                   </div>
 
                   <div class="video-container">
-                    <video id="placing-video" muted autoplay loop width="100%">
+                    <video id="placing-video" muted autoplay controls loop width="100%">
                       <source src="media/policy_rollouts/placing-pasta_into_drawer-levine457.mp4" type="video/mp4">
                     </video>
                   </div>
@@ -951,7 +951,7 @@
                   </div>
 
                   <div class="video-container">
-                    <video id="pouring-video" muted autoplay loop width="100%">
+                    <video id="pouring-video" muted autoplay controls loop width="100%">
                       <source src="media/policy_rollouts/pouring-salt_from_spoon_into_pan-levine457.mp4" type="video/mp4">
                     </video>
                   </div>
@@ -982,7 +982,7 @@
                   </div>
 
                   <div class="video-container">
-                    <video id="cutting-video" muted autoplay loop width="100%">
+                    <video id="cutting-video" muted autoplay controls loop width="100%">
                       <source src="media/policy_rollouts/cutting-tofu-levine457.mp4" type="video/mp4">
                     </video>
                   </div>
@@ -1014,7 +1014,7 @@
                 </div>
 
                 <div class="video-container">
-                  <video id="stirring-video" muted autoplay loop width="100%">
+                  <video id="stirring-video" muted autoplay controls loop width="100%">
                     <source src="media/policy_rollouts/stirring-food_in_pan-levine457.mp4" type="video/mp4">
                   </video>
                 </div>
@@ -1041,7 +1041,7 @@
   <div class="container is-max-desktop">
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <p style="text-align: left; font-size: 1.5em; margin-top: 20px; margin-bottom: 20px;"></p>
+        <p style="text-align: left; margin-top: 20px; margin-bottom: 20px;">
         To curate diverse and large-scale human behavior, we use EpicKitchens, 
         an in-the-wild egocentric vision dataset. It contains 20M frames in 100 hours of daily activities in
         the kitchen. To extract wrist trajectories from EpicKitchens, we run HaMeR, 
@@ -1089,7 +1089,7 @@
     <div class="columns is-centered">
       <div class="column is-full-width">
         <div class="video-container" style="max-width: 1200px; margin: auto; text-align: center;">
-          <video id="reconstruction-video" muted autoplay loop width="100%">
+          <video id="reconstruction-video" muted autoplay controls loop width="100%">
             <source src="./media/3d_Reconstructions_short.mp4" type="video/mp4">
           </video>
           <div class="columns is-centered" style="margin-top: 10px;">
@@ -1113,53 +1113,58 @@
         <h2 class="title is-3 has-text-centered">Predictions on Unseen Web Videos</h2>
       </div>
     </div>
-  </div>
   
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <p style="text-align: left; font-size: 1.5em; margin-top: 20px; margin-bottom: 20px;">
-          We evaluate ZeroMimic policies on unseen web videos from EpicKitchens.
-        </p>
-      </div>
-    </div>
-  </div>
   
-  <div class="columns is-multiline">
-    <div class="column is-half">
-      <div class="section-container">
-        <h3 style="margin-bottom: 20px; text-align: center;">Open Drawer</h3>
-        <div class="video-container" style="position: relative; max-width: 100%; overflow: hidden;">
-          <video id="epic_open_drawer-video" muted autoplay loop controls style="width: 100%;">
-            <source src="./media/web_videos_predictions/epic_open_cupboard.mp4" type="video/mp4">
-          </video>
-          <div style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px;">
-            Predictions
-          </div>
-          <div style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px;">
-            Ground Truth
-          </div>
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <p style="text-align: left; margin-top: 20px; margin-bottom: 20px;">
+            We evaluate ZeroMimic policies on unseen web videos from the EpicKitchens dataset. 
+            As shown below, while the predicted trajectories do not exactly replicate the ground truth, 
+            they still offer plausible paths that accomplish the intended tasks effectively, 
+            thanks to training on a diverse set of multi-modal human demonstrations.
+          </p>
         </div>
       </div>
     </div>
     
-    <div class="column is-half">
-      <div class="section-container">
-        <h3 style="margin-bottom: 20px; text-align: center;">Open Cupboard</h3>
-        <div class="video-container" style="position: relative; max-width: 100%; overflow: hidden;">
-          <video id="epic_open_cupboard-video" muted autoplay loop controls style="width: 100%;">
-            <source src="./media/web_videos_predictions/epic_open_cupboard.mp4" type="video/mp4">
-          </video>
-          <div style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px;">
-            Predictions
+    <div class="columns is-multiline">
+      <div class="column is-half">
+        <div class="section-container">
+          <h3 style="margin-bottom: 20px; font-size: 1.5em; text-align: center;">Open Drawer</h3>
+          <div class="video-container" style="position: relative; max-width: 100%; overflow: hidden;">
+            <video id="epic_open_drawer-video" muted autoplay loop controls style="width: 100%;">
+              <source src="./media/web_videos_predictions/ZeroMimic_epic_open_drawer_cropped.mp4" type="video/mp4">
+            </video>
+            <div style="position: absolute; top: 0%; left: 0%; font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.8); padding: 5px;">
+              Prediction
+            </div>
+            <div style="position: absolute; top: 49.5%; left: 0%; font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.8); padding: 5px;">
+              Ground Truth
+            </div>
           </div>
-          <div style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px;">
-            Ground Truth
+        </div>
+      </div>
+      
+      <div class="column is-half">
+        <div class="section-container">
+          <h3 style="margin-bottom: 20px; font-size: 1.5em;text-align: center;">Open Cupboard</h3>
+          <div class="video-container" style="position: relative; max-width: 100%; overflow: hidden;">
+            <video id="epic_open_cupboard-video" muted autoplay loop controls style="width: 100%;">
+              <source src="./media/web_videos_predictions/ZeroMimic_epic_open_cupboard_cropped.mp4" type="video/mp4">
+            </video>
+            <div style="position: absolute; top: 0%; left: 0%; font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.8); padding: 5px;">
+              Predictions
+            </div>
+            <div style="position: absolute; top: 49.5%; left: 0%; font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.8); padding: 5px;">
+              Ground Truth
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
 </section>
 
 

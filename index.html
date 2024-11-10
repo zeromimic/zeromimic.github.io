@@ -689,49 +689,49 @@
 
         <div style="font-size: 1.5em; padding: 20px; max-width: 1500px; margin: auto;">
           <style>
-              .section-container {
-                  text-align: center;
-                  padding: 20px;
-                  margin-bottom: 30px;
-                  background-color: #f9f9f9;
-                  border-radius: 8px;
-                  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-              }
-      
-              .select select {
-                  font-size: 1em;
-                  padding: 8px 12px;
-                  border-radius: 6px;
-                  border: 1px solid #ddd;
-                  color: #333;
-                  background-color: #fff;
-                  appearance: none;
-                  outline: none;
-                  transition: border 0.3s;
-              }
-      
-              .select select:focus {
-                  border-color: #4a90e2;
-                  box-shadow: 0 0 5px rgba(74, 144, 226, 0.4);
-              }
-      
-              .label {
-                  font-weight: bold;
-                  margin-right: 8px;
-                  display: inline-block;
-                  color: #4a4a4a;
-              }
-      
-              .select-container {
-                  display: inline-block;
-                  margin-right: 20px;
-                  text-align: left;
-              }
-      
-              .video-container {
-                  text-align: center;
-                  margin-top: 20px;
-              }
+            .section-container {
+                text-align: center;
+                padding: 20px;
+                margin-bottom: 30px;
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            }
+    
+            .select select {
+                font-size: 0.9em;
+                padding: 8px 12px;
+                border-radius: 6px;
+                border: 1px solid #ddd;
+                color: #333;
+                background-color: #fff;
+                appearance: none;
+                outline: none;
+                transition: border 0.3s;
+            }
+    
+            .select select:focus {
+                border-color: #4a90e2;
+                box-shadow: 0 0 5px rgba(74, 144, 226, 0.4);
+            }
+    
+            .label {
+                font-weight: bold;
+                margin-right: 8px;
+                display: inline-block;
+                color: #4a4a4a;
+            }
+    
+            .select-container {
+                display: inline-block;
+                margin-right: 20px;
+                text-align: center;
+            }
+    
+            .video-container {
+                text-align: center;
+                margin-top: 20px;
+            }
           </style>
       
           <!-- Skill Sections -->
@@ -801,203 +801,223 @@
               </div>
             </div>
   
-            <div id="section-slide-opening" class="section-container">
-              <h3 style="margin-bottom: 20px;">Slide Opening</h3>
-              <div class="select-container">
-              <span class="label">Object:</span>
-              <div class="select is-medium">
-                <select id="slide_opening-menu-objects" onchange="updateInstanceOptions('slide_opening'); updateVideo('slide_opening')">
-                <option value="drawer" selected="selected">Drawer</option>
-                </select>
+            <div class="columns is-multiline">
+              <div class="column is-half">
+                <div id="section-slide-opening" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Slide Opening</h3>
+                  <div class="select-container">
+                  <span class="label">Object:</span>
+                  <div class="select is-medium">
+                    <select id="slide_opening-menu-objects" onchange="updateInstanceOptions('slide_opening'); updateVideo('slide_opening')">
+                    <option value="drawer" selected="selected">Drawer</option>
+                    </select>
+                  </div>
+                  </div>
+              
+                  <div class="select-container">
+                  <span class="label">Instance:</span>
+                  <div class="select is-medium">
+                    <select id="slide_opening-menu-instances" onchange="updateVideo('slide_opening')">
+                      <option value="towne337" selected="selected">Towne 337 Kitchen</option>
+                      <option value="levine457">Levine 457 Kitchen</option>
+                    </select>
+                  </div>
+                  </div>
+            
+                  <div class="video-container">
+                    <video id="slide_opening-video" muted autoplay loop width="100%">
+                    <source src="media/policy_rollouts/slide_opening-drawer-towne337.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
               </div>
-              </div>
-          
-              <div class="select-container">
-              <span class="label">Instance:</span>
-              <div class="select is-medium">
-                <select id="slide_opening-menu-instances" onchange="updateVideo('slide_opening')">
-                  <option value="towne337" selected="selected">Towne 337 Kitchen</option>
-                  <option value="levine457">Levine 457 Kitchen</option>
-                </select>
-              </div>
-              </div>
-        
-              <div class="video-container">
-                <video id="slide_opening-video" muted autoplay loop width="100%">
-                <source src="media/policy_rollouts/slide_opening-drawer-towne337.mp4" type="video/mp4">
-                </video>
+            
+              <div class="column is-half">
+                <div id="section-slide-closing" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Slide Closing</h3>
+                  <div class="select-container">
+                  <span class="label">Object:</span>
+                  <div class="select is-medium">
+                    <select id="slide_closing-menu-objects" onchange="updateInstanceOptions('slide_closing'); updateVideo('slide_closing')">
+                    <option value="drawer" selected="selected">Drawer</option>
+                    </select>
+                  </div>
+                  </div>
+              
+                  <div class="select-container">
+                  <span class="label">Instance:</span>
+                  <div class="select is-medium">
+                    <select id="slide_closing-menu-instances" onchange="updateVideo('slide_closing')">
+                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                    <option value="towne337">Towne 337 Kitchen</option>
+                    </select>
+                  </div>
+                  </div>
+            
+                  <div class="video-container">
+                  <video id="slide_closing-video" muted autoplay loop width="100%">
+                    <source src="media/policy_rollouts/slide_closing-drawer-levine457.mp4" type="video/mp4">
+                  </video>
+                  </div>
+                </div>
               </div>
             </div>
     
-            <div id="section-slide-closing" class="section-container">
-              <h3 style="margin-bottom: 20px;">Slide Closing</h3>
-              <div class="select-container">
-              <span class="label">Object:</span>
-              <div class="select is-medium">
-                <select id="slide_closing-menu-objects" onchange="updateInstanceOptions('slide_closing'); updateVideo('slide_closing')">
-                <option value="drawer" selected="selected">Drawer</option>
-                </select>
-              </div>
-              </div>
-          
-              <div class="select-container">
-              <span class="label">Instance:</span>
-              <div class="select is-medium">
-                <select id="slide_closing-menu-instances" onchange="updateVideo('slide_closing')">
-                <option value="levine457" selected="selected">Levine 457 Kitchen</option>
-                <option value="towne337">Towne 337 Kitchen</option>
-                </select>
-              </div>
-              </div>
-        
-              <div class="video-container">
-              <video id="slide_closing-video" muted autoplay loop width="100%">
-                <source src="media/policy_rollouts/slide_closing-drawer-levine457.mp4" type="video/mp4">
-              </video>
-              </div>
-            </div>
+            <div class="columns is-multiline">
+              <div class="column is-half">
+                <div id="section-picking" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Picking</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="picking-menu-objects" onchange="updateInstanceOptions('picking'); updateVideo('picking')">
+                        <option value="marker" selected="selected">Marker</option>
+                        <option value="banana">Banana</option>
+                        <option value="can">Can</option>
+                      </select>
+                    </div>
+                  </div>
 
-            <div id="section-pouring" class="section-container">
-              <h3 style="margin-bottom: 20px;">Pouring</h3>
-              <div class="select-container">
-                <span class="label">Object:</span>
-                <div class="select is-medium">
-                  <select id="pouring-menu-objects" onchange="updateInstanceOptions('pouring'); updateVideo('pouring')">
-                    <option value="salt_from_spoon_into_pan" selected="selected">Salt from Spoon into Pan</option>
-                    <option value="pasta_from_bowl_into_pan">Pasta from Bowl into Pan</option>
-                    <option value="water_from_bowl_into_sink">Water from Bowl into Sink</option>
-                  </select>
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="picking-menu-instances" onchange="updateVideo('picking')">
+                        <option value="tabletop1" selected="selected">Table Top 1</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="picking-video" muted autoplay loop width="100%">
+                      <source src="media/policy_rollouts/picking-marker-tabletop1.mp4" type="video/mp4">
+                    </video>
+                  </div>
                 </div>
               </div>
+              
+              <div class="column is-half">
+                <div id="section-placing" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Placing</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="placing-menu-objects" onchange="updateInstanceOptions('placing'); updateVideo('placing')">
+                        <option value="pasta_into_drawer" selected="selected">Pasta into Drawer</option>
+                        <option value="cup">Cup</option>
+                      </select>
+                    </div>
+                  </div>
 
-              <div class="select-container">
-                <span class="label">Instance:</span>
-                <div class="select is-medium">
-                  <select id="pouring-menu-instances" onchange="updateVideo('pouring')">
-                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
-                  </select>
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="placing-menu-instances" onchange="updateVideo('placing')">
+                        <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="placing-video" muted autoplay loop width="100%">
+                      <source src="media/policy_rollouts/placing-pasta_into_drawer-levine457.mp4" type="video/mp4">
+                    </video>
+                  </div>
                 </div>
-              </div>
-
-              <div class="video-container">
-                <video id="pouring-video" muted autoplay loop width="100%">
-                  <source src="media/policy_rollouts/pouring-salt_from_spoon_into_pan-levine457.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-    
-            <div id="section-picking" class="section-container">
-              <h3 style="margin-bottom: 20px;">Picking</h3>
-              <div class="select-container">
-                <span class="label">Object:</span>
-                <div class="select is-medium">
-                  <select id="picking-menu-objects" onchange="updateInstanceOptions('picking'); updateVideo('picking')">
-                    <option value="marker" selected="selected">Marker</option>
-                    <option value="banana">Banana</option>
-                    <option value="can">Can</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="select-container">
-                <span class="label">Instance:</span>
-                <div class="select is-medium">
-                  <select id="picking-menu-instances" onchange="updateVideo('picking')">
-                    <option value="tabletop1" selected="selected">Table Top 1</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="video-container">
-                <video id="picking-video" muted autoplay loop width="100%">
-                  <source src="media/policy_rollouts/picking-marker-tabletop1.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-
-            <div id="section-placing" class="section-container">
-              <h3 style="margin-bottom: 20px;">Placing</h3>
-              <div class="select-container">
-                <span class="label">Object:</span>
-                <div class="select is-medium">
-                  <select id="placing-menu-objects" onchange="updateInstanceOptions('placing'); updateVideo('placing')">
-                    <option value="pasta_into_drawer" selected="selected">Pasta into Drawer</option>
-                    <option value="cup">Cup</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="select-container">
-                <span class="label">Instance:</span>
-                <div class="select is-medium">
-                  <select id="placing-menu-instances" onchange="updateVideo('placing')">
-                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="video-container">
-                <video id="placing-video" muted autoplay loop width="100%">
-                  <source src="media/policy_rollouts/placing-pasta_into_drawer-levine457.mp4" type="video/mp4">
-                </video>
               </div>
             </div>
             
-            <div id="section-cutting" class="section-container">
-              <h3 style="margin-bottom: 20px;">Cutting</h3>
-              <div class="select-container">
-                <span class="label">Object:</span>
-                <div class="select is-medium">
-                  <select id="cutting-menu-objects" onchange="updateInstanceOptions('cutting'); updateVideo('cutting')">
-                    <option value="tofu" selected="selected">Tofu</option>
-                    <option value="banana">Banana</option>
-                    <option value="cake">Cake</option>
-                  </select>
+            <div class="columns is-multiline">
+              <div class="column is-half">
+                <div id="section-pouring" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Pouring</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="pouring-menu-objects" onchange="updateInstanceOptions('pouring'); updateVideo('pouring')">
+                        <option value="salt_from_spoon_into_pan" selected="selected">Salt from Spoon into Pan</option>
+                        <option value="pasta_from_bowl_into_pan">Pasta from Bowl into Pan</option>
+                        <option value="water_from_bowl_into_sink">Water from Bowl into Sink</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="pouring-menu-instances" onchange="updateVideo('pouring')">
+                        <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="pouring-video" muted autoplay loop width="100%">
+                      <source src="media/policy_rollouts/pouring-salt_from_spoon_into_pan-levine457.mp4" type="video/mp4">
+                    </video>
+                  </div>
                 </div>
               </div>
+            
+              <div class="column is-half">
+                <div id="section-cutting" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Cutting</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="cutting-menu-objects" onchange="updateInstanceOptions('cutting'); updateVideo('cutting')">
+                        <option value="tofu" selected="selected">Tofu</option>
+                        <option value="banana">Banana</option>
+                        <option value="cake">Cake</option>
+                      </select>
+                    </div>
+                  </div>
 
-              <div class="select-container">
-                <span class="label">Instance:</span>
-                <div class="select is-medium">
-                  <select id="cutting-menu-instances" onchange="updateVideo('cutting')">
-                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
-                  </select>
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="cutting-menu-instances" onchange="updateVideo('cutting')">
+                        <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="cutting-video" muted autoplay loop width="100%">
+                      <source src="media/policy_rollouts/cutting-tofu-levine457.mp4" type="video/mp4">
+                    </video>
+                  </div>
                 </div>
-              </div>
-
-              <div class="video-container">
-                <video id="cutting-video" muted autoplay loop width="100%">
-                  <source src="media/policy_rollouts/cutting-tofu-levine457.mp4" type="video/mp4">
-                </video>
               </div>
             </div>
 
-            <div id="section-stirring" class="section-container">
-              <h3 style="margin-bottom: 20px;">Stirring</h3>
-              <div class="select-container">
-                <span class="label">Object:</span>
-                <div class="select is-medium">
-                  <select id="stirring-menu-objects" onchange="updateInstanceOptions('stirring'); updateVideo('stirring')">
-                    <option value="food_in_pan" selected="selected">Food in Pan</option>
-                    <option value="pasta_in_water">Pasta in Water</option>
-                    <option value="water_in_pan">Water in Pan</option>
-                  </select>
+            <div class="column is-half is-offset-one-quarter">
+              <div id="section-stirring" class="section-container">
+                <h3 style="margin-bottom: 20px;">Stirring</h3>
+                <div class="select-container">
+                  <span class="label">Object:</span>
+                  <div class="select is-medium">
+                    <select id="stirring-menu-objects" onchange="updateInstanceOptions('stirring'); updateVideo('stirring')">
+                      <option value="food_in_pan" selected="selected">Food in Pan</option>
+                      <option value="pasta_in_water">Pasta in Water</option>
+                      <option value="water_in_pan">Water in Pan</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
 
-              <div class="select-container">
-                <span class="label">Instance:</span>
-                <div class="select is-medium">
-                  <select id="stirring-menu-instances" onchange="updateVideo('stirring')">
-                    <option value="levine457" selected="selected">Levine 457 Kitchen</option>
-                  </select>
+                <div class="select-container">
+                  <span class="label">Instance:</span>
+                  <div class="select is-medium">
+                    <select id="stirring-menu-instances" onchange="updateVideo('stirring')">
+                      <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
 
-              <div class="video-container">
-                <video id="stirring-video" muted autoplay loop width="100%">
-                  <source src="media/policy_rollouts/stirring-food_in_pan-levine457.mp4" type="video/mp4">
-                </video>
+                <div class="video-container">
+                  <video id="stirring-video" muted autoplay loop width="100%">
+                    <source src="media/policy_rollouts/stirring-food_in_pan-levine457.mp4" type="video/mp4">
+                  </video>
+                </div>
               </div>
             </div>
 
@@ -1049,23 +1069,24 @@
     </div>
   </div>
   <div style="margin-bottom: 40px;"></div>
-  <div class="columns is-centered">
-    <div class="column is-full-width">
-      <div class="video-container" style="max-width: 1200px; margin: auto; text-align: center;">
-        <video id="reconstruction-video" muted autoplay loop width="100%">
-          <source src="./media/3d_Reconstructions_short.mp4" type="video/mp4">
-        </video>
-        <div class="columns is-centered" style="margin-top: 10px;">
-          <div class="column has-text-centered" style="width: 50%;">
-            <p style="font-size: 1.2em;">Visualized with sparse point cloud</p>
-          </div>
-          <div class="column has-text-centered" style="width: 50%;">
-            <p style="font-size: 1.2em;">Projected on images</p>
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class="video-container" style="max-width: 1200px; margin: auto; text-align: center;">
+          <video id="reconstruction-video" muted autoplay loop width="100%">
+            <source src="./media/3d_Reconstructions_short.mp4" type="video/mp4">
+          </video>
+          <div class="columns is-centered" style="margin-top: 10px;">
+            <div class="column has-text-centered" style="width: 50%;">
+              <p style="font-size: 1.2em;">Visualized with sparse point cloud</p>
+            </div>
+            <div class="column has-text-centered" style="width: 50%;">
+              <p style="font-size: 1.2em;">Projected on images</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 </section>
 

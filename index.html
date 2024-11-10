@@ -687,7 +687,7 @@
       
         <br/><br/>
 
-        <div style="font-size: 1.5em; padding: 20px; max-width: 1500px; margin: auto;">
+        <div style="font-size: 1.5em; padding: 0px; max-width: 1500px; margin: auto;">
           <style>
             .section-container {
                 text-align: center;
@@ -1038,6 +1038,22 @@
       </div>
     </div>
   </div>
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <p style="text-align: left; font-size: 1.5em; margin-top: 20px; margin-bottom: 20px;"></p>
+        To curate diverse and large-scale human behavior, we use EpicKitchens, 
+        an in-the-wild egocentric vision dataset. It contains 20M frames in 100 hours of daily activities in
+        the kitchen. To extract wrist trajectories from EpicKitchens, we run HaMeR, 
+        a state-of-the-art pre-trained hand-tracking model, to obtain 3D hand pose reconstruction. 
+        We leverage the camera extrinsics and intrinsics reconstruction provided by EPIC-Fields 
+        to account for the motion of the egocentric camera
+        and accurately convert human actions into the camera coordinate.
+        See the paper for more details.
+        </p>
+      </div>
+    </div>
+  </div>
   <div style="margin-bottom: 40px;"></div>
   <div class="columns is-centered">
     <div class="column is-narrow">
@@ -1090,15 +1106,74 @@
   </div>
 </section>
 
-
 <section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Predictions on Unseen Web Videos</h2>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <p style="text-align: left; font-size: 1.5em; margin-top: 20px; margin-bottom: 20px;">
+          We evaluate ZeroMimic policies on unseen web videos from EpicKitchens.
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="columns is-multiline">
+    <div class="column is-half">
+      <div class="section-container">
+        <h3 style="margin-bottom: 20px; text-align: center;">Open Drawer</h3>
+        <div class="video-container" style="position: relative; max-width: 100%; overflow: hidden;">
+          <video id="epic_open_drawer-video" muted autoplay loop controls style="width: 100%;">
+            <source src="./media/web_videos_predictions/epic_open_cupboard.mp4" type="video/mp4">
+          </video>
+          <div style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px;">
+            Predictions
+          </div>
+          <div style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px;">
+            Ground Truth
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="column is-half">
+      <div class="section-container">
+        <h3 style="margin-bottom: 20px; text-align: center;">Open Cupboard</h3>
+        <div class="video-container" style="position: relative; max-width: 100%; overflow: hidden;">
+          <video id="epic_open_cupboard-video" muted autoplay loop controls style="width: 100%;">
+            <source src="./media/web_videos_predictions/epic_open_cupboard.mp4" type="video/mp4">
+          </video>
+          <div style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px;">
+            Predictions
+          </div>
+          <div style="position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.5); padding: 5px;">
+            Ground Truth
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- <section class="section">
   <div class="container is-max-desktop">
 
     <div class="columns is-centered">
 
       <div class="column has-text-centered">
         <h2 class="title is-2">More details coming soon!</h2>
-      </div>
+      </div> -->
 
       <!-- Visual Effects. -->
       <!-- <div class="column">
@@ -1228,8 +1303,8 @@
     </div> -->
     <!--/ Concurrent Work. -->
 
-  </div>
-</section>
+  <!-- </div>
+</section> -->
 
 
 <!-- <section class="section" id="BibTeX">

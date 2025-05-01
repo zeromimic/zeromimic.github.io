@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="ZeroMimic: Distilling Robotic Manipulation Skills from Web Videos">
+  <meta name="keywords" content="Robotics, Machine Learning, Robot Learning, Imitation Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZeroMimic: Distilling Robotic Manipulation Skills from Web Videos</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <script>
+    const skillOptions = {
+    "slide_opening": {
+      "objects": [
+        {
+          "value": "drawer",
+          "text": "Drawer",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" },
+            { "value": "towne337", "text": "Towne 337 Kitchen" }
+          ]
+        }
+      ]
+    },
+    "slide_closing": {
+      "objects": [
+        {
+          "value": "drawer",
+          "text": "Drawer",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" },
+            { "value": "towne337", "text": "Towne 337 Kitchen" }
+          ]
+        }
+      ]
+    },
+    "vertical_hinge_closing": {
+      "objects": [
+        {
+          "value": "cupboard",
+          "text": "Cupboard",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" },
+            { "value": "tabletop1", "text": "Table Top 1" },
+            { "value": "tabletop2", "text": "Table Top 2" }
+          ]
+        },
+        {
+          "value": "fridge",
+          "text": "Fridge",
+          "instances": [
+            { "value": "grasplab", "text": "GRASP Lab Kitchen" }
+          ]
+        }
+      ]
+    },
+    "vertical_hinge_opening": {
+      "objects": [
+        {
+          "value": "cupboard",
+          "text": "Cupboard",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" },
+            { "value": "tabletop1", "text": "Table Top 1" },
+            { "value": "tabletop2", "text": "Table Top 2" }
+          ]
+        },
+        {
+          "value": "fridge",
+          "text": "Fridge",
+          "instances": [
+            { "value": "grasplab", "text": "GRASP Lab Kitchen" }
+          ]
+        }
+      ]
+    },
+    "pouring": {
+      "objects": [
+        {
+          "value": "salt_from_spoon_into_pan",
+          "text": "Salt from Spoon into Pan",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "pasta_from_bowl_into_pan",
+          "text": "Pasta from Bowl into Pan",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "water_from_bowl_into_sink",
+          "text": "Water from Bowl into Sink",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        }
+      ]
+    },
+    "picking": {
+      "objects": [
+        {
+          "value": "banana",
+          "text": "Banana",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "can",
+          "text": "Can",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "marker",
+          "text": "Marker",
+          "instances": [
+            { "value": "tabletop1", "text": "Table Top 1" }
+          ]
+        }
+      ]
+    },
+    "placing": {
+      "objects": [
+        {
+          "value": "pasta_into_drawer",
+          "text": "Pasta into Drawer",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "cup",
+          "text": "Cup",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        }
+      ]
+    },
+    "cutting": {
+      "objects": [
+        {
+          "value": "banana",
+          "text": "Banana",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "cake",
+          "text": "Cake",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "tofu",
+          "text": "Tofu",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        }
+      ]
+    },
+    "stirring": {
+      "objects": [
+        {
+          "value": "food_in_pan",
+          "text": "Food in Pan",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "pasta_in_water",
+          "text": "Pasta in Water",
+          "instances": [
+            { "value": "levine457", "text": "Levine 457 Kitchen" }
+          ]
+        },
+        {
+          "value": "water_in_pan",
+          "text": "Water in Pan",
+          "instances": [
+            { "value": "tabletop1", "text": "Table Top 1" }
+          ]
+        }
+      ]
+    }
+  };
+
+  function updateVideo(skill) {
+    // Determine the skill-specific dropdown IDs
+    var skillMenuObjectsId = skill + "-menu-objects";
+    var skillMenuInstancesId = skill + "-menu-instances";
+    var skillVideoId = skill + "-video";
+
+    // Get the selected object and instance values
+    var object = document.getElementById(skillMenuObjectsId).value;
+    var inst = document.getElementById(skillMenuInstancesId).value;
+
+    console.log("skill:", skill, "object:", object, "instance:", inst);
+
+    // Update the video source for the corresponding skill section
+    var video = document.getElementById(skillVideoId);
+    video.src = "media/policy_rollouts/" +
+                skill +
+                "-" +
+                object +
+                "-" +
+                inst +
+                ".mp4";
+
+    // Set playback rate and play the video
+    video.playbackRate = 1.00;
+    video.play();
+  }
+
+  
+  function updateSingleVideo() {
+    var skill = document.getElementById("single-menu-skills").value;
+    var object = document.getElementById("single-menu-objects").value;
+    var inst = document.getElementById("single-menu-instances").value;
+
+    console.log("single", skill, object, inst);
+
+    var video = document.getElementById("rollout-video");
+    video.src = "media/policy_rollouts/" + 
+                skill +
+                "-" +
+                object +
+                "-" +
+                inst +
+                ".mp4";
+    // video.playbackRate = 1.75;
+    video.playbackRate = 1.00;
+    video.play();
+  }
+
+  function updateObjectOptions() {
+    var skill = document.getElementById("single-menu-skills").value;
+    var objectSelect = document.getElementById("single-menu-objects");
+    var instanceSelect = document.getElementById("single-menu-instances");
+
+    // Clear current options
+    objectSelect.innerHTML = "";
+    instanceSelect.innerHTML = "";
+
+    // Populate objects based on selected skill
+    skillOptions[skill].objects.forEach(function(obj) {
+      var option = document.createElement("option");
+      option.value = obj.value;
+      option.text = obj.text;
+      objectSelect.appendChild(option);
+    });
+
+    // Update instance options based on selected skill and first object
+    if (skillOptions[skill].objects.length > 0) {
+      updateInstanceOptions();
+    }
+  }
+
+  // function updateInstanceOptions() {
+  //   var skill = document.getElementById("single-menu-skills").value;
+  //   var object = document.getElementById("single-menu-objects").value;
+  //   var instanceSelect = document.getElementById("single-menu-instances");
+
+  //   // Clear current options
+  //   instanceSelect.innerHTML = "";
+
+  //   // Find the selected object and populate instances
+  //   skillOptions[skill].objects.forEach(function(obj) {
+  //     if (obj.value === object) {
+  //       obj.instances.forEach(function(inst) {
+  //         var option = document.createElement("option");
+  //         option.value = inst.value;
+  //         option.text = inst.text;
+  //         instanceSelect.appendChild(option);
+  //       });
+  //     }
+  //   });
+  // }
+
+  function updateInstanceOptions(skill) {
+    var objectSelect = document.getElementById(skill + "-menu-objects");
+    var instanceSelect = document.getElementById(skill + "-menu-instances");
+
+    // Clear current instance options
+    instanceSelect.innerHTML = "";
+
+    // Find the selected object
+    var object = objectSelect.value;
+    var skillData = skillOptions[skill];
+
+    // Populate instances based on the selected object
+    skillData.objects.forEach(function(obj) {
+        if (obj.value === object) {
+            obj.instances.forEach(function(inst) {
+                var option = document.createElement("option");
+                option.value = inst.value;
+                option.text = inst.text;
+                instanceSelect.appendChild(option);
+            });
+        }
+    });
+  }
+
+
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/zeromimic_logo.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">ZeroMimic: Distilling Robotic Manipulation Skills from Web Videos</h1>
+            <!-- <div class="is-size-4 publication-authors">
+            <span class="author-block">
+              <a href="https://junyaoshi.github.io/">Junyao Shi</a><sup>&#8224</sup>,</span>
+            <span class="author-block">
+              <a href="https://zhaolebor.github.io/">Zhuolun Zhao</a><sup>&#8224</sup>,</span>
+            <span class="author-block">
+              <a href="https://viccccciv.github.io/Tianyouwang.github.io/">Tianyou Wang</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://ianpedroza.github.io/">Ian Pedroza</a><sup>&#8225</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/amy-luo-187962199/">Amy Luo</a><sup>&#8225</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://everloom-129.github.io/">Jie Wang</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://jasonma2016.github.io/">Jason Ma</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.seas.upenn.edu/~dineshj/">Dinesh Jayaraman</a>
+            </span>
+          </div> -->
+
+          <!-- <div class="is-size-4 publication-authors"> -->
+            <!-- <span class="author-block">University of Pennsylvania</span> -->
+            <!-- <span class="author-block"><sup>&#8224</sup>Equal Contribution</span> -->
+            <!-- <span class="author-block"><sup>&#8225</sup>Equal Advising</span> -->
+          <!-- </div> -->
+
+          <!-- <div class="is-size-4 publication-authors">
+            <span class="author-block">ICRA 2025</span>
+          </div> -->
+
+          <!-- <div class="is-size-5 publication-authors"> -->
+            <!-- <span class="author-block">University of Pennsylvania</span> -->
+            <!-- <span class="author-block"><sup>&#8224</sup> <sup>&#8225</sup> Equal Contribution</span>; -->
+            <!-- <span class="author-block"><sup>&#8225</sup>Equal Advising</span> -->
+            <!-- <span class="author-block">
+              <a href="mailto:junys@seas.upenn.edu">
+              <i class="fas fa-envelope"></i>
+              </a> Corresponding to: junys@seas.upenn.edu
+            </span>
+            <span class="author-block"><sup>&#8225</sup>Equal Advising</span> -->
+          <!-- </div> -->
+
+          <div style="margin-bottom: 10px;"></div>
+
+          <!-- <div class="column has-text-centered"> -->
+            <!-- <div class="publication-links"> -->
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="./static/ZeroMimic.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span> -->
+              <!--  ArXiv Link. -->
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/abs/2503.23877"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://youtu.be/nFhNSsR7TEY"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/junyaoshi/ZeroMimic"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span> -->
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2>
+    </div>
+  </div>
+</section> -->
+
+
+<!-- <section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/steve.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/chair-tp.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/shiba.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/fullbody.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/blueshirt.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mask.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <p style="margin-bottom: 20px;">
+          <span class="icon has-text-danger" style="vertical-align: middle; font-size: 1.5em;">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>
+          <span style="vertical-align: middle;">
+            <span>Robots require demonstrations <span style="color: red;"><b>on the same robot, in the same room, with the same objects</b></span>, which scales poorly.</span>
+          </span>
+        </p>
+        <p style="margin-bottom: 20px;"></p>
+          <span class="icon has-text-warning" style="vertical-align: middle; font-size: 1.5em;">
+            <i class="fas fa-lightbulb"></i>
+          </span>
+          <span style="vertical-align: middle;">
+            Can robots learn <span style="color: #4169E1;"><b>general</b></span> skill policies <span style="color: #4169E1;"><b>without specific reference to one robot, scene, or object</b></span> from <span style="color: #4169E1;"><b>more diverse and larger sources of data</b></span>?
+          </span>
+        </p>
+        <div style="margin-bottom: 20px;"></div>
+        <figure class="image">
+          <img src="./static/images/ZeroMimic_concept_v4.png" alt="ZeroMimic Concept Overview">
+        </figure>
+        <p style="margin-top: 20px;">We introduce <b>ZeroMimic</b>, 
+          a system that distills robotic manipulation skills from <b>egocentric human web videos</b> 
+          for <b>zero-shot deployment</b> in diverse real-world and simulated environments, 
+          a variety of objects, and different robot embodiments.
+            Critically, ZeroMimic learns purely from 
+            <span style="color: red;"><b>passive human videos</b></span> 
+            and <span style="color: red;"><b>does not require any robot data</b></span>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Many recent advances in robotic manipulation have come through imitation learning, 
+            yet these rely largely on mimicking a particularly hard-to-acquire form of demonstrations: 
+            those collected on the same robot in the same room with the same objects 
+            as the trained policy must handle at test time. 
+            In contrast, large pre-recorded human video datasets 
+            demonstrating manipulation skills in-the-wild already exist, 
+            which contain valuable information for robots. 
+            Is it possible to distill a repository of useful robotic skill policies out of such data 
+            without any additional requirements on robot-specific demonstrations or exploration? 
+            We present the first such system <b>ZeroMimic</b>, 
+            that generates immediately deployable image goal-conditioned skill policies 
+            for several common categories of manipulation tasks 
+            (opening, closing, pouring, pick&place, cutting, and stirring) 
+            each capable of acting upon diverse objects and across diverse unseen task setups. 
+            ZeroMimic is carefully designed to exploit recent advances 
+            in semantic and geometric visual understanding of human videos, 
+            together with modern grasp affordance detectors and imitation policy classes. 
+            After training ZeroMimic on the popular EpicKitchens dataset of ego-centric human videos, 
+            we evaluate its out-of-the-box performance in varied real-world and simulated kitchen settings 
+            with two different robot embodiments, 
+            demonstrating its impressive abilities to handle these varied tasks. 
+            <!-- To enable plug-and-play reuse of ZeroMimic policies on other task setups and robots, 
+            we will release software and policy checkpoints for all skills.  -->
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Overview of <b>ZeroMimic</b></h2>
+        <figure class="image">
+          <img src="./static/images/ZeroMimic_method_v4.png" alt="Overview of ZeroMimic">
+        </figure>
+        <p style="margin-top: 20px;"></p>
+          <b>ZeroMimic</b> is composed of the <b>grasping phase</b> and the <b>post-grasp phase</b>. 
+          The <b>grasping phase</b> (top) leverages human affordance-based grasping to execute a task-relevant grasp. 
+          The <b>post-grasp phase</b> (bottom) is an imitation policy trained on web videos to predict 6D wrist trajectories. 
+          We deploy this trained model directly on the robot. 
+          <!-- The images in this figure correspond to a real execution of the ZeroMimic “slide opening” skill for a drawer-opening task. -->
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered"><b>ZeroMimic</b> Zero-Shot Deployment</h2>
+
+        <p style="text-align: left; margin-top: 20px; margin-bottom: 20px;">
+          We train <b>9 different skill policies</b>: vertical hinge opening/closing, slide opening/closing, pouring, picking, placing, cutting, and stirring.
+          We evaluate ZeroMimic skill policies <b>out-of-the-box</b> in the real world on a <b>diverse set of objects</b> in <b>diverse unseen environments</b>. 
+          See below for the evaluation videos.
+        </p>
+      
+        <br/><br/>
+
+        <div style="font-size: 1.5em; padding: 0px; max-width: 1500px; margin: auto;">
+          <style>
+            .section-container {
+                text-align: center;
+                padding: 20px;
+                margin-bottom: 30px;
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            }
+    
+            .select select {
+                font-size: 0.9em;
+                padding: 8px 12px;
+                border-radius: 6px;
+                border: 1px solid #ddd;
+                color: #333;
+                background-color: #fff;
+                appearance: none;
+                outline: none;
+                transition: border 0.3s;
+            }
+    
+            .select select:focus {
+                border-color: #4a90e2;
+                box-shadow: 0 0 5px rgba(74, 144, 226, 0.4);
+            }
+    
+            .label {
+                font-weight: bold;
+                margin-right: 8px;
+                display: inline-block;
+                color: #4a4a4a;
+            }
+    
+            .select-container {
+                display: inline-block;
+                margin-right: 20px;
+                text-align: center;
+            }
+    
+            .video-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+          </style>
+      
+          <!-- Skill Sections -->
+          <div id="skill-sections">
+
+            <div class="columns is-multiline">
+              <div class="column is-half">
+                <div id="section-vertical-hinge-opening" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Vertical Hinge Opening</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="vertical_hinge_opening-menu-objects" onchange="updateInstanceOptions('vertical_hinge_opening'); updateVideo('vertical_hinge_opening')">
+                        <option value="cupboard" selected="selected">Cupboard</option>
+                        <option value="fridge">Fridge</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="vertical_hinge_opening-menu-instances" onchange="updateVideo('vertical_hinge_opening')">
+                        <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                        <option value="tabletop1">Table Top 1</option>
+                        <option value="tabletop2">Table Top 2</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="vertical_hinge_opening-video" muted autoplay loop controls width="100%">
+                      <source src="media/policy_rollouts/vertical_hinge_opening-cupboard-levine457.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column is-half">
+                <div id="section-vertical-hinge-closing" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Vertical Hinge Closing</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="vertical_hinge_closing-menu-objects" onchange="updateInstanceOptions('vertical_hinge_closing'); updateVideo('vertical_hinge_closing')">
+                        <option value="fridge" selected="selected">Fridge</option>
+                        <option value="cupboard">Cupboard</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="vertical_hinge_closing-menu-instances" onchange="updateVideo('vertical_hinge_closing')">
+                        <option value="grasplab" selected="selected">GRASP Lab Kitchen</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="vertical_hinge_closing-video" muted autoplay controls loop width="100%">
+                      <source src="media/policy_rollouts/vertical_hinge_closing-fridge-grasplab.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="columns is-multiline">
+              <div class="column is-half">
+                <div id="section-slide-opening" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Slide Opening</h3>
+                  <div class="select-container">
+                  <span class="label">Object:</span>
+                  <div class="select is-medium">
+                    <select id="slide_opening-menu-objects" onchange="updateInstanceOptions('slide_opening'); updateVideo('slide_opening')">
+                    <option value="drawer" selected="selected">Drawer</option>
+                    </select>
+                  </div>
+                  </div>
+              
+                  <div class="select-container">
+                  <span class="label">Instance:</span>
+                  <div class="select is-medium">
+                    <select id="slide_opening-menu-instances" onchange="updateVideo('slide_opening')">
+                      <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                      <option value="towne337">Towne 337 Kitchen</option>
+                    </select>
+                  </div>
+                  </div>
+            
+                  <div class="video-container">
+                    <video id="slide_opening-video" muted autoplay controls loop width="100%">
+                    <source src="media/policy_rollouts/slide_opening-drawer-levine457.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="column is-half">
+                <div id="section-slide-closing" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Slide Closing</h3>
+                  <div class="select-container">
+                  <span class="label">Object:</span>
+                  <div class="select is-medium">
+                    <select id="slide_closing-menu-objects" onchange="updateInstanceOptions('slide_closing'); updateVideo('slide_closing')">
+                    <option value="drawer" selected="selected">Drawer</option>
+                    </select>
+                  </div>
+                  </div>
+              
+                  <div class="select-container">
+                  <span class="label">Instance:</span>
+                  <div class="select is-medium">
+                    <select id="slide_closing-menu-instances" onchange="updateVideo('slide_closing')">
+                      <option value="towne337" selected="selected">Towne 337 Kitchen</option>
+                    <option value="levine457">Levine 457 Kitchen</option>
+                    </select>
+                  </div>
+                  </div>
+            
+                  <div class="video-container">
+                  <video id="slide_closing-video" muted autoplay controls loop width="100%">
+                    <source src="media/policy_rollouts/slide_closing-drawer-towne337.mp4" type="video/mp4">
+                  </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+    
+            <div class="columns is-multiline">
+              <div class="column is-half">
+                <div id="section-picking" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Picking</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="picking-menu-objects" onchange="updateInstanceOptions('picking'); updateVideo('picking')">
+                        <option value="marker" selected="selected">Marker</option>
+                        <option value="banana">Banana</option>
+                        <option value="can">Can</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="picking-menu-instances" onchange="updateVideo('picking')">
+                        <option value="tabletop1" selected="selected">Table Top 1</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="picking-video" muted autoplay controls loop width="100%">
+                      <source src="media/policy_rollouts/picking-marker-tabletop1.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="column is-half">
+                <div id="section-placing" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Placing</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="placing-menu-objects" onchange="updateInstanceOptions('placing'); updateVideo('placing')">
+                        <option value="pasta_into_drawer" selected="selected">Pasta into Drawer</option>
+                        <option value="cup">Cup</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="placing-menu-instances" onchange="updateVideo('placing')">
+                        <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="placing-video" muted autoplay controls loop width="100%">
+                      <source src="media/policy_rollouts/placing-pasta_into_drawer-levine457.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="columns is-multiline">
+              <div class="column is-half">
+                <div id="section-pouring" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Pouring</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="pouring-menu-objects" onchange="updateInstanceOptions('pouring'); updateVideo('pouring')">
+                        <option value="salt_from_spoon_into_pan" selected="selected">Salt from Spoon into Pan</option>
+                        <option value="pasta_from_bowl_into_pan">Pasta from Bowl into Pan</option>
+                        <option value="water_from_bowl_into_sink">Water from Bowl into Sink</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="pouring-menu-instances" onchange="updateVideo('pouring')">
+                        <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="pouring-video" muted autoplay controls loop width="100%">
+                      <source src="media/policy_rollouts/pouring-salt_from_spoon_into_pan-levine457.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="column is-half">
+                <div id="section-cutting" class="section-container">
+                  <h3 style="margin-bottom: 20px;">Cutting</h3>
+                  <div class="select-container">
+                    <span class="label">Object:</span>
+                    <div class="select is-medium">
+                      <select id="cutting-menu-objects" onchange="updateInstanceOptions('cutting'); updateVideo('cutting')">
+                        <option value="tofu" selected="selected">Tofu</option>
+                        <option value="banana">Banana</option>
+                        <option value="cake">Cake</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="select-container">
+                    <span class="label">Instance:</span>
+                    <div class="select is-medium">
+                      <select id="cutting-menu-instances" onchange="updateVideo('cutting')">
+                        <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="video-container">
+                    <video id="cutting-video" muted autoplay controls loop width="100%">
+                      <source src="media/policy_rollouts/cutting-tofu-levine457.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-half is-offset-one-quarter">
+              <div id="section-stirring" class="section-container">
+                <h3 style="margin-bottom: 20px;">Stirring</h3>
+                <div class="select-container">
+                  <span class="label">Object:</span>
+                  <div class="select is-medium">
+                    <select id="stirring-menu-objects" onchange="updateInstanceOptions('stirring'); updateVideo('stirring')">
+                      <option value="food_in_pan" selected="selected">Food in Pan</option>
+                      <option value="pasta_in_water">Pasta in Water</option>
+                      <option value="water_in_pan">Water in Pan</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="select-container">
+                  <span class="label">Instance:</span>
+                  <div class="select is-medium">
+                    <select id="stirring-menu-instances" onchange="updateVideo('stirring')">
+                      <option value="levine457" selected="selected">Levine 457 Kitchen</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="video-container">
+                  <video id="stirring-video" muted autoplay controls loop width="100%">
+                    <source src="media/policy_rollouts/stirring-food_in_pan-levine457.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">ZeroMimic Zero-Shot Quantitative Results</h2>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-full-width has-text-centered">
+        <figure class="image">
+          <img src="./static/images/skill_success_rates_cameraready.png" alt="ZeroMimic Quantitative Results">
+          <figcaption style="margin-top: 10px; font-size: 1.1em; text-align: left;">
+            <b>ZeroMimic</b> demonstrates strong generalization capabilities, 
+            achieving consistent success across diverse tasks, robot embodiments, and both real-world and simulated environments. 
+            The evaluation spans 34 distinct scenarios across 18 object categories in 7 kitchen scenes, 
+            highlighting the adaptability and robustness of the system.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Comparison to ReKep</h2>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <figure class="image" style="max-width: 600px; margin: auto;">
+          <img src="./static/images/rekep_results.png" alt="ReKep Results" style="width: 100%;">
+        </figure>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div style="margin-top: 10px; font-size: 1.1em; text-align: left;">
+          Concurrent work ReKep [1] optimizes keypoint-based constraints generated by vision-language models (VLMs) to achieve zero-shot robotic behavior. 
+          To compare ZeroMimic to ReKep, we perform real-world experiments on 4 tasks using the Franka robot in the Levine Hall Kitchen environment. 
+          We observe that the failure cases of ReKep mostly stem from two issues: 
+          the vision module generate inaccurate keypoints or associate incorrect keypoints with target objects, 
+          and the VLM generate incorrect keypoint-based constraints due to its limited spatial reasoning capabilities.
+          <br><br>
+          [1] Huang, Wenlong, et al. "ReKep: Spatio-Temporal Reasoning of Relational Keypoint Constraints for Robotic Manipulation." 8th Annual Conference on Robot Learning.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Human Wrist Trajectories from Web Videos</h2>
+      </div>
+    </div>
+  </div>
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <p style="text-align: left; margin-top: 20px; margin-bottom: 20px;">
+        To curate diverse and large-scale human behavior, we use EpicKitchens, 
+        an in-the-wild egocentric vision dataset. It contains 20M frames in 100 hours of daily activities in
+        the kitchen. To extract wrist trajectories from EpicKitchens, we run HaMeR, 
+        a state-of-the-art pre-trained hand-tracking model, to obtain 3D hand pose reconstruction. 
+        We leverage the camera extrinsics and intrinsics reconstruction provided by EPIC-Fields 
+        to account for the motion of the egocentric camera
+        and convert human actions into the camera coordinate.
+        See the paper for more details.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom: 40px;"></div>
+  <div class="columns is-centered">
+    <div class="column is-narrow">
+      <figure class="image" style="max-width: 300px; margin: auto;">
+        <img src="./static/images/camera_info.png" alt="Camera Info">
+        <figcaption style="text-align: center; margin-top: 20px; font-size: 1.2em;">Camera extrinsics/intrinsics from Structure-from-Motion</figcaption>
+      </figure>
+    </div>
+    <div class="column is-narrow has-text-centered" style="display: flex; align-items: center; justify-content: center;">
+      <span class="icon is-large" style="font-size: 3em;">
+        <i class="fas fa-plus"></i>
+      </span>
+    </div>
+    <div class="column is-narrow">
+      <figure class="image" style="max-width: 300px; margin: auto;">
+      <img src="./static/images/hamer_hand_pose.png" alt="Hand Pose">
+      <figcaption style="text-align: center; margin-top: 20px; font-size: 1.2em;">3D hand pose reconstruction from HaMeR</figcaption>
+      </figure>
+    </div>
+    <div class="column is-narrow has-text-centered" style="display: flex; align-items: center; justify-content: center;">
+      <span class="icon is-large" style="font-size: 3em;">
+        <i class="fas fa-equals"></i>
+      </span>
+    </div>
+    <div class="column is-narrow has-text-centered" style="display: flex; align-items: center; justify-content: center;">
+      <div style="max-width: 160px; margin: auto;">
+        <p style="font-size: 1.5em; vertical-align: middle;">Wrist Pose</p>
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom: 40px;"></div>
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class="video-container" style="max-width: 1200px; margin: auto; text-align: center;">
+          <video id="reconstruction-video" muted autoplay controls loop width="100%">
+            <source src="./media/3d_Reconstructions_short.mp4" type="video/mp4">
+          </video>
+          <div class="columns is-centered" style="margin-top: 10px;">
+            <div class="column has-text-centered" style="width: 50%;">
+              <p style="font-size: 1.2em;">Visualized with sparse point cloud</p>
+            </div>
+            <div class="column has-text-centered" style="width: 50%;">
+              <p style="font-size: 1.2em;">Projected on images</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Predictions on Unseen Web Videos</h2>
+      </div>
+    </div>
+  
+  
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <p style="text-align: left; margin-top: 20px; margin-bottom: 20px;">
+            We evaluate ZeroMimic policies on unseen web videos from the EpicKitchens dataset. 
+            As shown below, while the predicted trajectories do not exactly replicate the ground truth, 
+            they still offer plausible paths that accomplish the intended tasks effectively, 
+            thanks to training on a diverse set of multi-modal human demonstrations.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="columns is-multiline">
+      <div class="column is-half">
+        <div class="section-container">
+          <h3 style="margin-bottom: 20px; font-size: 1.5em; text-align: center;">Open Drawer</h3>
+          <div class="video-container" style="position: relative; max-width: 100%; overflow: hidden;">
+            <video id="epic_open_drawer-video" muted autoplay loop controls style="width: 100%;">
+              <source src="./media/web_videos_predictions/ZeroMimic_epic_open_drawer_cropped.mp4" type="video/mp4">
+            </video>
+            <div style="position: absolute; top: 0%; left: 0%; font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.8); padding: 5px;">
+              Prediction
+            </div>
+            <div style="position: absolute; top: 49.5%; left: 0%; font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.8); padding: 5px;">
+              Ground Truth
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="column is-half">
+        <div class="section-container">
+          <h3 style="margin-bottom: 20px; font-size: 1.5em;text-align: center;">Open Cupboard</h3>
+          <div class="video-container" style="position: relative; max-width: 100%; overflow: hidden;">
+            <video id="epic_open_cupboard-video" muted autoplay loop controls style="width: 100%;">
+              <source src="./media/web_videos_predictions/ZeroMimic_epic_open_cupboard_cropped.mp4" type="video/mp4">
+            </video>
+            <div style="position: absolute; top: 0%; left: 0%; font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.8); padding: 5px;">
+              Predictions
+            </div>
+            <div style="position: absolute; top: 49.5%; left: 0%; font-size: 1.5em; color: white; background: rgba(0, 0, 0, 0.8); padding: 5px;">
+              Ground Truth
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Experiment Time-Lapse</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <p style="text-align: left; margin-top: 20px; margin-bottom: 20px;">
+          Our complete experimental procedure is shown in the following time-lapse video. 
+          Before our evaluations, we position the camera and the robot 
+          at a camera angle roughly similar to the relative camera 
+          angle of the human hand appearing in egocentric videos.
+          We perform 10 trials with varying camera and robot positions 
+          to generally resemble a human's egocentric viewpoint.
+
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class="video-container" style="max-width: 1200px; margin: auto; text-align: center;">
+          <video id="reconstruction-video" muted autoplay controls loop width="100%">
+            <source src="./media/ZeroMimic_TL_1122_compressed.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- <section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <div class="column has-text-centered">
+        <h2 class="title is-2">More details coming soon!</h2>
+      </div> -->
+
+      <!-- Visual Effects. -->
+      <!-- <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Visual Effects</h2>
+          <p>
+            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
+            would be impossible without nerfies since it would require going through a wall.
+          </p>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/dollyzoom-stacked.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div> -->
+      <!--/ Visual Effects. -->
+
+      <!-- Matting. -->
+      <!-- <div class="column">
+        <h2 class="title is-3">Matting</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              As a byproduct of our method, we can also solve the matting problem by ignoring
+              samples that fall outside of a bounding box during rendering.
+            </p>
+            <video id="matting-video" controls playsinline height="100%">
+              <source src="./static/videos/matting.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+
+        </div>
+      </div>
+    </div> -->
+    <!--/ Matting. -->
+
+    <!-- Animation. -->
+    <!-- <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Animation</h2> -->
+
+        <!-- Interpolating. -->
+        <!-- <h3 class="title is-4">Interpolating states</h3>
+        <div class="content has-text-justified">
+          <p>
+            We can also animate the scene by interpolating the deformation latent codes of two input
+            frames. Use the slider here to linearly interpolate between the left frame and the right
+            frame.
+          </p>
+        </div>
+        <div class="columns is-vcentered interpolation-panel">
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_start.jpg"
+                 class="interpolation-image"
+                 alt="Interpolate start reference image."/>
+            <p>Start Frame</p>
+          </div>
+          <div class="column interpolation-video-column">
+            <div id="interpolation-image-wrapper">
+              Loading...
+            </div>
+            <input class="slider is-fullwidth is-large is-info"
+                   id="interpolation-slider"
+                   step="1" min="0" max="100" value="0" type="range">
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_end.jpg"
+                 class="interpolation-image"
+                 alt="Interpolation end reference image."/>
+            <p class="is-bold">End Frame</p>
+          </div>
+        </div>
+        <br/> -->
+        <!--/ Interpolating. -->
+
+        <!-- Re-rendering. -->
+        <!-- <h3 class="title is-4">Re-rendering the input video</h3>
+        <div class="content has-text-justified">
+          <p>
+            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
+            viewpoint such as a stabilized camera by playing back the training deformations.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 width="75%">
+            <source src="./static/videos/replay.mp4"
+                    type="video/mp4">
+          </video>
+        </div> -->
+        <!--/ Re-rendering. -->
+
+      <!-- </div>
+    </div> -->
+    <!--/ Animation. -->
+
+
+    <!-- Concurrent Work. -->
+    <!-- <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Related Links</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            There's a lot of excellent work that was introduced around the same time as ours.
+          </p>
+          <p>
+            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
+          </p>
+          <p>
+            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
+            both use deformation fields to model non-rigid scenes.
+          </p>
+          <p>
+            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
+          </p>
+          <p>
+            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
+          </p>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Concurrent Work. -->
+
+  <!-- </div>
+</section> -->
+
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section> -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+      <div class="content has-text-centered">
+        <p>
+        Website template borrowed from <a href="https://nerfies.github.io/">NeRFies</a>.
+        </p>
+      </div>
+      </div>
+    </div>
+    </div>
+</footer>
+
+</body>
+</html>
